@@ -1,4 +1,5 @@
 import time
+
 def updateRow(ans,row,ele,queue):
 	for i in range(9):
 		if type(ans[row][i]) == list:
@@ -7,7 +8,6 @@ def updateRow(ans,row,ele,queue):
 					if len(ans[row][i]) == 1 :
 						queue.append((row,i))
 						ans[row][i] = ans[row][i][0]
-						#print(queue[-1],ans[row][i], "Appended during updateRow")
 
 def updateCol(ans,col,ele,queue):
 	for i in range(9):
@@ -17,7 +17,6 @@ def updateCol(ans,col,ele,queue):
 					if len(ans[i][col]) == 1 :
 						queue.append((i,col))
 						ans[i][col] = ans[i][col][0]
-						#print(queue[-1],ans[i][col], "Appended during updateCol")
 
 def updateGrid(ans,row,col,ele,queue):
 	start_row,start_col = getGridStart(row,col)
@@ -29,7 +28,6 @@ def updateGrid(ans,row,col,ele,queue):
 					if len(ans[i][j]) == 1 :
 						queue.append((i,j))
 						ans[i][j] = ans[i][j][0]
-						#print(queue[-1],ans[i][j], "Appended during updateGrid")
 
 def findByElim(ans,row,col,queue):
 	affectedGrids = findAffectedGrids(row,col)
@@ -46,10 +44,8 @@ def findByElim(ans,row,col,queue):
 
 		for key in ele_grid:
 			if type(ele_grid[key]) == list and len(ele_grid[key]) == 1:
-				#print(key, ele_grid[key])
 				queue.append(ele_grid[key][0])
 				ans[ele_grid[key][0][0]][ele_grid[key][0][1]] = key
-				#print(queue[-1],ans[ele_grid[key][0][0]][ele_grid[key][0][1]], "Appended during findByElim")
 
 
 def findAffectedGrids(row,col):
@@ -70,7 +66,6 @@ def findByElimInRow(ans,row,queue):
 		if type (ele_grid[key]) == list and len(ele_grid[key]) == 1:
 			queue.append(ele_grid[key][0])
 			ans[ele_grid[key][0][0]][ele_grid[key][0][1]] = key
-			#print("Appended in findByElimInRow")
 
 def findByElimInCol(ans,col,queue):
 	ele_grid = {1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[],9:[]}
@@ -85,7 +80,6 @@ def findByElimInCol(ans,col,queue):
 		if type (ele_grid[key]) == list and len(ele_grid[key]) == 1:
 			queue.append(ele_grid[key][0])
 			ans[ele_grid[key][0][0]][ele_grid[key][0][1]] = key
-			#print("Appended in findByElimInCol")
 
 def getGridStart(row,col):
 	return ((row // 3) * 3, (col // 3) * 3)
@@ -135,7 +129,6 @@ def updateUsingPairInGrid(ans,row,col,queue):
 					if len(ans[req_row][i]) == 1:
 						queue.append((req_row,i))
 						ans[req_row][i] = ans[req_row][i][0]
-						#print("Appeneded during Naked Pair Row Update")
 
 		if len(pos_cols) == 1:
 			req_col = pos_cols[list(pos_cols.keys())[0]][0][1]
@@ -154,7 +147,6 @@ def updateUsingPairInGrid(ans,row,col,queue):
 					if len(ans[i][req_col]) == 1:
 						queue.append((i,req_col))
 						ans[i][req_col] = ans[i][req_col][0]
-						#print("Appended during Nake Pair Column Update")
 
 def updateUsingPairInRow(ans,row,col,queue):
 	ele_grid = {1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[],9:[]}
@@ -193,7 +185,6 @@ def updateUsingPairInRow(ans,row,col,queue):
 						if len(ans[i][j]) == 1:
 							queue.append((i,j))
 							ans[i][j] = ans[i][j][0]
-							#print("Appened in updateUsingPairInRow")
 
 def updateUsingPairInCol(ans,row,col,queue):
 	ele_grid = {1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[],9:[]}
@@ -232,7 +223,6 @@ def updateUsingPairInCol(ans,row,col,queue):
 						if len(ans[i][j]) == 1:
 							queue.append((i,j))
 							ans[i][j] = ans[i][j][0]
-							#print("Appened in updateUsingPairInRow")
 
 def checkDict(d):
 	for i in range(1,10):
@@ -310,7 +300,7 @@ def checkDuplicates(row, col, mat):
 
 def backTracking(row, col, ans):
 	if row == 9:
-		if isValid(ans): #Extra check; May not be required as duplicate checks already being performed
+		if isValid(ans): 
 			return True
 
 	if type(ans[row][col]) != list:
@@ -396,7 +386,7 @@ def Solver(mat):
 			print("Unknown error occurred!")
 	else :
 		if backTracking(0,0,ans):
-			print("Solution")
+			print("Solution:")
 			displaySudoku(ans)
 		else :
 			print("This sudoku cannot be solved")
@@ -418,25 +408,27 @@ def displayUnsolvedSudoku(ans):
 	displaySudoku(temp)
 
 def displaySudoku(ans):
-	print("||-|-|-||-|-|-||-|-|-||")
+	print("||=|=|=||=|=|=||=|=|=||")
 	for i in range(9):
 		print(f'||{ans[i][0]}|{ans[i][1]}|{ans[i][2]}||{ans[i][3]}|{ans[i][4]}|{ans[i][5]}||{ans[i][6]}|{ans[i][7]}|{ans[i][8]}||')
 		if i%3 == 2:
-			print("||-|-|-||-|-|-||-|-|-||")
+			print("||=|=|=||=|=|=||=|=|=||")
 
-print("Sai's Sudoku solver")
-print("Enter the rows of the Sudoku (Enter 0 for blank spaces)")
-mat = []
-for i in range(9):
-	row = []
-	x = input()
-	for j in range(9):
-		row.append(int(x[j]))
-	mat.append(row)
-Solver(mat)
+if __name__ == "__main__":
+    print("Sai's Sudoku solver")
+    print("Enter the rows of the Sudoku (Enter 0 for blank spaces)")
+    mat = []
+    for i in range(9):
+        row = []
+        x = input()
+        for j in range(9):
+            row.append(int(x[j]))
+        mat.append(row)
+    Solver(mat)
 
 '''
-Puzzle 200
+Sample Input
+
 000900340
 900010062
 060000100
